@@ -1,0 +1,16 @@
+/*comment*/
+/*Random design choises, will be changed later on*/
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 50px;
+  background-color: #f0f0f0;
+}
+
+#output {
+  margin-top: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  display: inline-block;
+}
