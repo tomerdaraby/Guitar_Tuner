@@ -81,6 +81,7 @@ function autoCorrelate(buffer, sampleRate) {
   SIZE = buffer.length;
 
   // Comparing the buffer to shifted (delayed) versions
+  // Creates an array which holds the auto-correlation values *added explanation in README
   let c = new Array(SIZE).fill(0);
   for (let i = 0; i < SIZE; i++) {
     for (let j = 0; j < SIZE - i; j++) {
@@ -101,7 +102,7 @@ function autoCorrelate(buffer, sampleRate) {
 
   if (maxpos === -1) return -1;
 
-  // Parabolic interpolation (for smoother result)
+  // Parabolic interpolation (for smoother result) **added explanation in README
   let T0 = maxpos;
   let x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
   let a = (x1 + x3 - 2 * x2) / 2;
