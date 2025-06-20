@@ -7,12 +7,16 @@
   <link rel="stylesheet" href="style.css"> <!-- To connect to the css file -->
 </head>
 <body>
-  <h1>Guitar Tuner 🎸</h1>
-  <div id="output">
-    <p>Detected Frequency: <span id="frequency">--</span> Hz</p>
-    <p>Closest Note: <span id="note">--</span></p>
-    <p>Offset: <span id="offset">--</span> cents</p>
+  <h1>Tuner</h1>
+  <div id="tuner">
+  <div class="tuner-bar">
+    <span class="tuner-label left">-50</span>
+    <div class="line"></div>
+    <div id="ball"></div>
+    <span class="tuner-label right">+50</span>
   </div>
+  <div id="note-display">--</div>
+</div>
 
   <script src="app.js"></script> <!-- To connect to the js file -->
 </body>

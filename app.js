@@ -1,6 +1,5 @@
-const freqDisplay = document.getElementById("frequency");
-const noteDisplay = document.getElementById("note");
-const offsetDisplay = document.getElementById("offset");
+const ball = document.getElementById("ball");
+const noteText = document.getElementById("note-display");
 
 // Start listening as soon as the site loads
 window.addEventListener("load", () => {
@@ -29,14 +28,27 @@ async function startTuner() {
 
     // If pitch is vaild update accordingly
     if (ac !== -1) {
-      freqDisplay.textContent = ac.toFixed(2);
       const note = frequencyToNote(ac);
-      noteDisplay.textContent = note.name;
-      offsetDisplay.textContent = note.cents.toFixed(1);
+      const cents = note.cents;
+
+      // Move the ball based on cents offset
+      const clamped = Math.max(-50, Math.min(50, cents));
+      const percent = (clamped + 50) / 100; // converts from [-50, +50] to [0, 1]
+      ball.style.left = `${percent * 100}%`;
+
+      // Change ball color depending on tuning accuracy
+      const greenZone = 5; // How close (in cents) is considered "in tune"
+      if (Math.abs(cents) <= greenZone) {
+        ball.style.backgroundColor = "#4caf50"; // green
+      } else {
+        ball.style.backgroundColor = "#f44336"; // red
+      }
+
+      // Display the note below the bar
+      noteText.textContent = note.name;
     } else {
-      freqDisplay.textContent = '--';
-      noteDisplay.textContent = '--';
-      offsetDisplay.textContent = '--';
+      ball.style.backgroundColor = "#1e1e1e";
+      noteText.textContent = "--";
     }
 
     // Schedules the function to run again on the next screen update - gives real-time updates without freezing the page
