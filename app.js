@@ -1,5 +1,11 @@
 const indicator = document.getElementById("indicator-ball");
 const noteText = document.getElementById("note-display");
+const leftLabel = document.getElementById("lower-note");
+const rightLabel = document.getElementById("higher-note");
+
+const A4 = 440;
+const SEMITONE = 12;
+const noteNames = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
 
 // Start listening as soon as the site loads
 window.addEventListener("load", () => {
@@ -49,8 +55,20 @@ async function startTuner() {
 
       // Display the note below the bar
       noteText.textContent = note.name;
+
+      // Find note number of the current note
+      const noteNum = Math.round(SEMITONE * Math.log2(ac / A4) + 57);
+
+      // Calculate neighboring notes
+      const lowerNote = getNoteNameByNumber(noteNum - 1);
+      const higherNote = getNoteNameByNumber(noteNum + 1);
+
+      leftLabel.textContent = lowerNote;
+      rightLabel.textContent = higherNote;
     } else {
       indicator.style.opacity = "0";
+      leftLabel.textContent = "";
+      rightLabel.textContent = "";
       noteText.textContent = "--";
     }
 
@@ -128,11 +146,6 @@ function autoCorrelate(buffer, sampleRate) {
 }
 
 function frequencyToNote(freq) {
-  const A4 = 440;
-  const SEMITONE = 12;
-
-  const noteNames = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
-
   let noteNum = Math.round(SEMITONE * Math.log2(freq / A4) + 57); // 57 = note number of A4
   let noteName = noteNames[noteNum % 12];
   let octave = Math.floor(noteNum / 12) - 1;
@@ -144,4 +157,10 @@ function frequencyToNote(freq) {
     name: `${noteName}${octave}`,
     cents: cents
   };
+}
+
+function getNoteNameByNumber(noteNum) {
+  const name = noteNames[noteNum % 12];
+  const octave = Math.floor(noteNum / 12) - 1;
+  return `${name}${octave}`;
 }
