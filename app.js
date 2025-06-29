@@ -1,4 +1,4 @@
-const ball = document.getElementById("ball");
+const indicator = document.getElementById("indicator-ball");
 const noteText = document.getElementById("note-display");
 
 // Start listening as soon as the site loads
@@ -31,23 +31,26 @@ async function startTuner() {
       const note = frequencyToNote(ac);
       const cents = note.cents;
 
-      // Move the ball based on cents offset
-      const clamped = Math.max(-50, Math.min(50, cents));
-      const percent = (clamped + 50) / 100; // converts from [-50, +50] to [0, 1]
-      ball.style.left = `${percent * 100}%`;
+      // Show indicator
+      indicator.style.opacity = "1";
+
+      // Calculate indicator position
+      const clamped = Math.max(-50, Math.min(50, cents)); // limit to -50/+50
+      const percent = (clamped + 50) / 100; // normalize to [0, 1]
+      indicator.style.left = `${percent * 100}%`;
 
       // Change ball color depending on tuning accuracy
       const greenZone = 5; // How close (in cents) is considered "in tune"
       if (Math.abs(cents) <= greenZone) {
-        ball.style.backgroundColor = "#4caf50"; // green
+        indicator.style.backgroundColor = "#4caf50"; // green
       } else {
-        ball.style.backgroundColor = "#f44336"; // red
+        indicator.style.backgroundColor = "#f44336"; // red
       }
 
       // Display the note below the bar
       noteText.textContent = note.name;
     } else {
-      ball.style.backgroundColor = "#1e1e1e";
+      indicator.style.opacity = "0";
       noteText.textContent = "--";
     }
 
